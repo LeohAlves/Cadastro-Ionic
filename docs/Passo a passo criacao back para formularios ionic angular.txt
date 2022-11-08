@@ -1,0 +1,38 @@
+importar
+	ReactiveFormsModule junto do formModulo no modulo.ts
+	
+na page.ts
+	import {FormBuilder} from '@angular/forms'
+	
+inserir no metodo contrutor
+	private formBuilder: FormBuilder
+	
+criar a variavel dentro da classe, com valor
+
+	nomeVariavel = this.formBuilder.group({
+    atributo: ['', Validators.compose([Validators.required, Validators.email])], *dentro das  chaves as validaçoes do campo
+    senha: ['',Validators.compose([Validators.required, Validators.minLength(6)])]
+  })
+  
+  no html 
+		colocar os inputs dentro de um form e no form usar [formGroup ]="nomevar"
+		ja no input especificar o tipo e usar formControlName="nome atributo "
+ 
+ -- Criando mensagens de validaçao no page.ts		
+	
+errorMessage =
+  {
+    email : [{tipo: 'required' , aviso: 'O campo não pode estar vazio'},{ tipo: 'email', aviso: 'Email inválido'}],
+    senha: [{tipo: 'required' , aviso: 'O campo não pode estar vazio'},{ tipo: 'minLength', aviso: 'É necessário ter  no mínimo 6 caracteres'}],
+  };
+
+   get nome(){
+    return this.CadForm.get('nome');
+  }
+
+no html 
+      <ng-container *ngFor="let erro of errorMessage.nome">
+        <span class="msgError" *ngIf="Nome.errors?.[erro.tipo] && (nome.dirty || nome.touched)">
+          {{erro.aviso}}
+        </span>
+      </ng-container>
