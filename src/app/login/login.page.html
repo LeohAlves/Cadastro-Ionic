@@ -6,15 +6,27 @@
     <ion-card-title>
       <ion-toolbar class="ion-text-center  " color="laranja">Login</ion-toolbar>
     </ion-card-title>
+
     <form [formGroup]="loginForm" >
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" formControlName="email"></ion-input>
+        <ion-input type="email"  id="email" formControlName="email"></ion-input>
+    
       </ion-item>
+      <ng-container *ngFor="let erro of errorMessage.email">
+        <span class="msgError" *ngIf="email.errors?.[erro.tipo] && (email.dirty || email.touched)">
+          {{erro.aviso}}
+        </span>
+      </ng-container>
 
       <ion-item>
         <ion-label position="floating">Senha</ion-label>
-        <ion-input type="password" formControlName="senha"></ion-input>
+        <ion-input type="password" id="senha" formControlName="senha"></ion-input>
+        <ng-container *ngFor="let erro of errorMessage.senha">
+          <span class="msgError" *ngIf="senha.errors?.[erro.tipo] && (senha.dirty || senha.touched)">
+            {{erro.aviso}}
+          </span>
+        </ng-container>
       </ion-item>
     </form>
 
