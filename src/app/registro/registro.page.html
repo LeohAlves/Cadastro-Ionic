@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content color="dark">
   <ion-card>
     <ion-img class="resp"
       src="https://img.freepik.com/vetores-gratis/desenho-plano-de-fundo-de-halloween_23-2149077569.jpg?w=996&t=st=1667257452~exp=1667258052~hmac=c858ee561aa690a8a4a5faf278c339c86e687d6d49172443fe09259b2c59a275"
@@ -27,9 +27,10 @@
           {{erro.aviso}}
         </span>
       </ng-container>
+      
       <ion-item>
         <ion-label position="floating">CPF</ion-label>
-        <ion-input type="number" id="CPF" formControlName="CPF"></ion-input>
+        <ion-input type="text" id="CPF" formControlName="CPF"></ion-input>
       </ion-item>      
       <ng-container *ngFor="let erro of errorMessage.CPF">
         <span class="msgError" *ngIf="CPF.errors?.[erro.tipo] && (CPF.dirty || CPF.touched)">
