@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators} from '@angular/forms'
+import { FormBuilder, Validators } from '@angular/forms'
+import { Router } from '@angular/router';
+import { Usuario } from '../models/Usuario.model';
 import { StorageService } from '../services/storage.service';
+import { UsuarioService } from '../services/usuario.service';
 
 
 
@@ -11,44 +14,67 @@ import { StorageService } from '../services/storage.service';
 })
 export class RegistroPage implements OnInit {
 
+  usuario: Usuario = new Usuario()
+
   CadForm = this.formBuilder.group({
-    nome:  ['', Validators.compose([Validators.required,Validators.minLength(3)])],
+    nome: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
     email: ['', Validators.compose([Validators.required, Validators.email])],
-    CPF : ['',Validators.compose([Validators.required, Validators.maxLength(11),Validators.minLength(11)])],
-    senha: ['',Validators.compose([Validators.required, Validators.minLength(8)])],
+    cpf: ['', Validators.compose([Validators.required, Validators.maxLength(11), Validators.minLength(11)])],
+    senha: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
     confirma: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
   })
 
   errorMessage =
-  {
-    nome :[{tipo: 'required', aviso: 'O campo não pode estar vazio'}, {tipo: 'minlength', aviso: 'É necessário ter no mínimo 3 caracteres.'}],
-    email : [{tipo: 'required' , aviso: 'O campo não pode estar vazio'},{ tipo: 'email', aviso: 'Email inválido'}],
-    CPF: [{tipo: 'required', aviso: 'O campo não pode estar vazio'}, {tipo: 'minlength', aviso: 'CPF inválido!'}, {tipo: 'maxlength', aviso: 'CPF inválido!'}],
-    senha: [{tipo: 'required' , aviso: 'O campo não pode estar vazio'},{ tipo: 'minlength', aviso: 'É necessário ter no mínimo 8 caracteres.'}],
-    confirma: [{tipo: 'required', aviso: 'O campo não pode estar vazio'}, {tipo: 'minlength', aviso: 'É necessário ter no mínimo 8 caracteres.'}]
-  };
-  constructor( private formBuilder: FormBuilder, private bd: StorageService){}
+    {
+      nome: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'minlength', aviso: 'É necessário ter no mínimo 3 caracteres.' }],
+      email: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'email', aviso: 'Email inválido' }],
+      cpf: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'minlength', aviso: 'cpf inválido!' }, { tipo: 'maxlength', aviso: 'CPF inválido!' }],
+      senha: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'minlength', aviso: 'É necessário ter no mínimo 8 caracteres.' }],
+      confirma: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'minlength', aviso: 'É necessário ter no mínimo 8 caracteres.' }]
+    };
+  constructor(private formBuilder: FormBuilder, 
+    private bd: StorageService, 
+    private usuarioService: UsuarioService, 
+    private route : Router
+    ) { }
 
-  async Salvar(){
-    this.bd.set('email',this.email)
-    this.bd.set('nome',this.nome)
-    this.bd.set('CPF',this.CPF)
-    this.bd.set('Senha',this.senha)
+  async Salvar() {
+    if (this.CadForm.valid) {
+
+      this.usuario.nome = this.CadForm.get('nome').value;
+      this.usuario.email = this.CadForm.get('email').value;
+      this.usuario.cpf = this.CadForm.get('cpf').value;
+      this.usuario.senha = this.CadForm.get('senha').value;
+
+      const id = await this.usuarioService.buscarId() as number;
+
+      this.usuario.id = id;
+
+      this.usuarioService.salvar(this.usuario);
+
+      this.usuarioService.salvarId(id+1);
+      alert('Cadastrado com Sucesso !')
+      this.route.navigateByUrl('/login')
+    } else {
+      alert('Formulário inválido!')
+    }
   }
 
-  get nome(){
+  // this.bd.set('email', this.email) this.bd.set('nome', this.nome) this.bd.set('CPF', this.CPF) this.bd.set('Senha', this.senha)
+
+  get nome() {
     return this.CadForm.get('nome');
   }
-  get email(){
+  get email() {
     return this.CadForm.get('email');
   }
-  get CPF(){
-    return this.CadForm.get('CPF');
+  get cpf() {
+    return this.CadForm.get('cpf');
   }
-  get senha(){
+  get senha() {
     return this.CadForm.get('senha');
   }
-  get confirma(){
+  get confirma() {
     return this.CadForm.get('confirma');
   }
   ngOnInit() {

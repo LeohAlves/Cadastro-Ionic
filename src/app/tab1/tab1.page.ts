@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Usuario } from '../models/Usuario.model';
+import { StorageService } from '../services/storage.service';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-tab1',
@@ -6,7 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  usuarios: [''];
+  constructor(private usuarioService: UsuarioService ,private storageService: StorageService) {}
 
-  constructor() {}
+  listarUsuarios()
+  {
+    this.usuarios
+  }
 
 }

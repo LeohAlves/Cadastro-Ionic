@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Usuario } from '../models/Usuario.model';
+import { UsuarioService } from '../services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -10,24 +13,41 @@ export class LoginPage implements OnInit {
 
   loginForm = this.formBuilder.group({
     email: ['', Validators.compose([Validators.required, Validators.email])],
-    senha: ['',Validators.compose([Validators.required, Validators.minLength(6)])]
+    senha: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
   })
-  
-  errorMessage =
-  {
-    email : [{tipo: 'required' , aviso: 'O campo não pode estar vazio'},{ tipo: 'email', aviso: 'Email inválido'}],
-    senha: [{tipo: 'required' , aviso: 'O campo não pode estar vazio'},{ tipo: 'minlength', aviso: 'É necessário ter  no mínimo 6 caracteres'}]
-  };
-  constructor(private formBuilder: FormBuilder ) { }
 
-  get email(){
+  errorMessage =
+    {
+      email: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'email', aviso: 'Email inválido' }],
+      senha: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'minlength', aviso: 'É necessário ter  no mínimo 8 caracteres' }]
+    };
+  constructor(
+    private formBuilder: FormBuilder
+    , private usuarioService: UsuarioService,
+    private route: Router) { }
+
+  get email() {
     return this.loginForm.get('email');
   }
 
-  get senha(){
+  get senha() {
     return this.loginForm.get('senha');
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
+  async login() {
+    if (this.loginForm.valid) {
+      const email = this.loginForm.get('email').value;
+      const senha = this.loginForm.get('senha').value;
+      const usuario: Usuario = (await this.usuarioService.login(email, senha)) as null as Usuario;
+      if (usuario) {
+        this.route.navigateByUrl('/tabs/tab1')
+      } else {
+        alert('email ou/e senha invalido!!')
+      }
+    }else{
+      alert('Formulario invalido')
+    }
+  }
 }
