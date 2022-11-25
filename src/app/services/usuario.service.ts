@@ -12,12 +12,13 @@ export class UsuarioService {
 
   async salvar(usuario: Usuario) {
     // primeiro precisa colocar o usuario na lista para depois salvar a lista
+    await this.buscarTodos();
     this.listaUsuario[usuario.id] = usuario;
     await this.storageService.set('usuarios', this.listaUsuario)
   }
 
   async buscarUm(id: number) {
-    this.buscarTodos();
+    await this.buscarTodos();
     return this.listaUsuario[id];
    }
   
@@ -25,13 +26,13 @@ export class UsuarioService {
   async buscarTodos() { 
     this.listaUsuario = await this.storageService.get('usuarios') as unknown as Usuario[];
     if(!this.listaUsuario){
-      return [];
+      this.listaUsuario = [];
     }
     return this.listaUsuario;
   }
 
   async deletar(id: number) {
-    this.buscarTodos(); // atualiza a lista de usuarios
+    await this.buscarTodos(); // atualiza a lista de usuarios
     this.listaUsuario.slice(id, 1); // remove o usuario do array
     await this.storageService.set('usuarios', this.listaUsuario); // salva o array
   }
@@ -51,7 +52,7 @@ export class UsuarioService {
   }
 
   async login(email: string , senha:string){
-    this.buscarTodos();
+    await this.buscarTodos();
       let usuario:Usuario;
       this.listaUsuario.filter(item =>{
         if(item.email.toLocaleLowerCase() == email.toLocaleLowerCase() ){

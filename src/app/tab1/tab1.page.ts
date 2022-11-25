@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Usuario } from '../models/Usuario.model';
-import { StorageService } from '../services/storage.service';
 import { UsuarioService } from '../services/usuario.service';
 
 @Component({
@@ -8,13 +7,16 @@ import { UsuarioService } from '../services/usuario.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
-  usuarios: [''];
-  constructor(private usuarioService: UsuarioService ,private storageService: StorageService) {}
+export class Tab1Page   {
+  listaUsuarios: Usuario[] = [];
+  constructor(private usuarioService: UsuarioService ) {}
 
-  listarUsuarios()
+  async buscarUsuarios()
   {
-    this.usuarios
+    this.listaUsuarios =  await this.usuarioService.buscarTodos();
   }
 
+  ionViewWillEnter(){
+    this.buscarUsuarios();
+  }
 }

@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>CadastroProduto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="CadFormProd"></form>
+ <ion-item>
+   <ion-label  position="floating">Nome </ion-label>
+     <ion-input></ion-input>
+ </ion-item>
+ <ion-item>
+  <ion-label  position="floating">Descrição </ion-label>
+    <ion-input></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label  position="floating">Preço</ion-label>
+    <ion-input></ion-input>
+</ion-item>
+<ion-item>
+  <ion-label  position="floating">Data de Validade </ion-label>
+    <ion-input></ion-input>
+</ion-item>
+
+<ion-grid>
+  <ion-row>
+    <ion-col size="12">
+      <ion-button (click)="Salvar()" color="laranja" expand="block">
+        <ion-label>Registrar Novo</ion-label>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="6">
+      <ion-button color="laranja" expand="block">
+        <ion-label>Ver Produtos</ion-label>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="6">
+      <ion-button color="laranja" expand="block">
+        <ion-label> Limpar</ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>
