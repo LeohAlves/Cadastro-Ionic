@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Usuario } from '../models/Usuario.model';
-import { StorageService } from '../services/storage.service';
 import { UsuarioService } from '../services/usuario.service';
 
 
@@ -33,7 +32,6 @@ export class RegistroPage implements OnInit {
       confirma: [{ tipo: 'required', aviso: 'O campo não pode estar vazio' }, { tipo: 'minlength', aviso: 'É necessário ter no mínimo 8 caracteres.' }]
     };
   constructor(private formBuilder: FormBuilder, 
-    private bd: StorageService, 
     private usuarioService: UsuarioService, 
     private route : Router
     ) { }
@@ -60,7 +58,6 @@ export class RegistroPage implements OnInit {
     }
   }
 
-  // this.bd.set('email', this.email) this.bd.set('nome', this.nome) this.bd.set('CPF', this.CPF) this.bd.set('Senha', this.senha)
 
   get nome() {
     return this.CadForm.get('nome');
