@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Produto } from '../models/Produto.model';
 import { ProdutoService } from '../services/produto.service';
 
@@ -9,7 +10,7 @@ import { ProdutoService } from '../services/produto.service';
 })
 export class Tab2Page   {
   listaProdutos: Produto[] = [];
-  constructor(private produtoService: ProdutoService ) {}
+  constructor(private produtoService: ProdutoService, private route: Router ) {}
 
   async buscarProdutos()
   {
@@ -18,5 +19,9 @@ export class Tab2Page   {
 
   ionViewWillEnter(){
     this.buscarProdutos();
+  }
+
+  Voltar(){
+    this.route.navigateByUrl('/cadastro-produto')
   }
 }

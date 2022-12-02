@@ -1,8 +1,13 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="laranja">
     <ion-title>
       Produtos
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button icon="close-outline" (click)="Voltar()" color="dark">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -14,4 +19,5 @@
        Descrição: {{product.descricao}}<br>
     </ion-label>
   </ion-item>
+
 </ion-content>

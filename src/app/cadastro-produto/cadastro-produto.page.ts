@@ -58,6 +58,8 @@ export class CadastroProdutoPage implements OnInit {
     this.route.navigateByUrl('/tabs/tab2')
   }
 
+
+
   ngOnInit() {
   }
   get nome() {
